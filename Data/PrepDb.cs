@@ -13,13 +13,18 @@ namespace PlatformService.Data
             public static void PrepPopulation(IApplicationBuilder app){
                 using( var serviceScope = app.ApplicationServices.CreateScope())
                 {
-                    SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+                    var service = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                    if(service != null){
+                         SeedData(service);
+                    }
                 }
             }
 
             private static void SeedData(AppDbContext context)
             {
 
+              if(context != null)
+              {
                 if(!context.Platforms.Any())
                 {
                     Console.WriteLine("--> Seeding Data ..");
@@ -35,7 +40,7 @@ namespace PlatformService.Data
                 }else{
                     Console.WriteLine("--> We already have data");
                 }
-
+              }
             }
 
 
